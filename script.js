@@ -1,6 +1,8 @@
 //
 
-const ageRegex = /^\d{4}$/;
+const ageRegex = /^\d{4}$/;		// RegEx to validate Year of Birth
+let cannotContinue = false;		// Flag to not let script continue if invalid 
+								// information is inputed
 
 
 const btn1 = document.getElementById('btn1');
@@ -13,10 +15,11 @@ function fun1(){
 
 function yearValidation(checkedInput){
 	if (ageRegex.test(checkedInput.value)) {
-		out1.innerHTML = "This is a valid birth year!"
+		out1.innerHTML = "This is a valid birth year!";
 	}
 	else {
-		out1.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####"
+		cannotContinue = True;
+		out1.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
 	}
 }
 
