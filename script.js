@@ -1,6 +1,6 @@
 //
 
-const ageRegex = /\d{4}/
+const ageRegex = /^\d{4}$/;
 
 
 const btn1 = document.getElementById('btn1');
@@ -11,23 +11,15 @@ function fun1(){
 	out1.innerHTML = txt1.value
 }
 
-function foo(checkedInput){
-	const ok = ageRegex.exec(checkedInput.value)
-
-	output.textContent = ok
-		? 'This is a valid birth year ${ok[0]}'
-		: 'The birth year entered is not valid!'
+function yearValidation(checkedInput){
+	if (ageRegex.test(checkedInput.value)) {
+		out1.innerHTML = "This is a valid birth year!"
+	}
+	else {
+		out1.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####"
+	}
 }
 
-btn1.addEventListener('click', fun1);
-bt1.addEventListener('click', foo)
-
-
-//let d = new Date();
-//document.body.innerHTML = "<p>Today's date is " + d + "</p>"
-
-//function show() {
-//	let d = new Date();
-//	document.body.innerHTML = "<p>Today's date is " + d + "</p>"
-//}
-
+btn1.addEventListener('click', function() {
+    yearValidation(txt1);
+});
