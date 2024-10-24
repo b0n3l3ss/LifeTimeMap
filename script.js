@@ -7,7 +7,10 @@ const newPeopleDict = new Map;	// Map containing the infomration of additional p
 
 //Buttons from HTML file
 const btn1 = document.getElementById('btn1');
-const btn2 = document.getElementById('btn2');
+//const btn2 = document.getElementById('btn2');
+
+//Submit
+const sub = document.getElementById('submit');
 
 //root name and age
 const jRootName = document.getElementById('rName');
@@ -50,21 +53,21 @@ function generateInputsToAddPeople(numIterations) {
 //Event listners to run javascript functions
 
 btn1.addEventListener('click', function() {
-	
+	cannotContinue = false;
     yearValidation(jRootYoB);
 	
 	for(i = 0; i < numAddPpl.value; i++) {
 		let eventName = document.getElementById(`${i}Name`);
 		let eventAge = document.getElementById(`${i}Age`);
-		//console.log(eventName.value);
-		//console.log(eventAge.value);
-		//console.log(i);
+		yearValidation(eventAge);
 		newPeopleDict.set(i, [eventName.value, eventAge.value]);
 	}
-	//console.log(newPeopleDict);
-	//console.log(newPeopleDict.get(0)[0]);
-	//console.log(newPeopleDict.get(1)[1]);
-	//console.log(newPeopleDict.get(2)[1]);
+
+
+	//If we are allowed to continue, the submit button will allow us to generate the map
+	if (!cannotContinue) {
+		sub.type = 'submit';
+	}
 });
 
 //This event listner updates when the drop down menue has been updated
