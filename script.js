@@ -124,3 +124,10 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('btn2 is NOT found in the HTML.');
     }
 });
+
+//new Chart(
+//	type: 'line',
+//	data: {
+//		labels
+//	}
+//)
