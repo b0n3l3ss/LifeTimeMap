@@ -1,44 +1,35 @@
-//import {Line} from 'react-chartjs-2' 
-import {Chart as ChartJS} from './node_modules/chart.js/auto'
-
-(async function() {
-    const data = [
-        {year: 2010, count: 10}, 
-        {year: 2011, count: 20},
-        {year: 2012, count: 15},
-        {year: 2013, count: 25},
-        {year: 2014, count: 22},
-        {year: 2015, count: 30},
-        {year: 2016, count: 28},
-    ];
-    new ChartJS(
-        document.getElementById('lifeMapGraph'), 
-        {
-            type: 'bar',
-            data: {
-                labels: data.map(row => row.year),
-                datasets: [
-
-                    {
-                        label: 'Aquisitions by Year',
-                        data: data.map(row => row.count) 
-                    }
-                ]
-            }
-        }
-    )
-})();
-
+import Chart from 'chart.js/auto';
 document.addEventListener('DOMContentLoaded', function() {
+    const data = [
+        { year: 2010, count: 10 }, 
+        { year: 2011, count: 20 }, 
+        { year: 2012, count: 15 }, 
+        { year: 2013, count: 25 }, 
+        { year: 2014, count: 22 }, 
+        { year: 2015, count: 30 }, 
+        { year: 2016, count: 28 }
+    ];
+
+    const ctx = document.getElementById('lifeMapGraph').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.map(row => row.year),
+            datasets: [{
+                label: 'Acquisitions by Year',
+                data: data.map(row => row.count)
+            }]
+        }
+    });
+
     const chartGraph = document.getElementById('lifeMapGraph');
-
     if (chartGraph) {
-        console.log('btn1 is defined and found in the HTML.');
+        console.log('lifeMapGraph is defined and found in the HTML.');
     } else {
-        console.log('btn1 is NOT found in the HTML.');
+        console.log('lifeMapGraph is NOT found in the HTML.');
     }
-
 });
+
 
 //const config = {
 //    type: 'line',

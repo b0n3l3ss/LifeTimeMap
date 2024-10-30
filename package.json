@@ -1,5 +1,12 @@
 {
   "dependencies": {
     "chart.js": "^4.4.6"
-  }
+  },
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  },
+  "scripts": {
+    "start": "parcel index1.html"
+}
+
 }
