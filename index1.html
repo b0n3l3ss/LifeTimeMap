@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Graph</title>
+    <script src="script.js"></script>
+    <script type="module" src="linegraph.js"></script>
+
 </head>
 <body>
     <h1>This is what happens when we hit submit on the previous webpage</h1>
-    <div style="width: 800px;"><canvas id="lifeMapGraph"></canvas></div>
-    <form action="index.html">
-        <input type="submit" value="Return To Home Page">
-    </form>
-    <script type="module" src="linegraph.js"></script>
+    <div style="width: 800px;">
+        <canvas id="lifeMapGraph"></canvas>
+    </div>
+    <input type="button" value="Return To Home Page" id="returnHome" data-target="index">
+    <input type="button" value="Checking Stuff" id="btn3">
 </body>
 </html>

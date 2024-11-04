@@ -88,11 +88,11 @@ btn1.addEventListener('click', function() {
 	//If we are allowed to continue, the submit button will allow us to generate the map
 	if (!cannotContinue) {
 		jYrError.innerHTML = "These are valid year entries!";
-		sub.type = 'submit';
+		sub.type = 'button';
 	}
 	else{
 		jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
-		sub.type = 'button';
+		sub.type = 'submit';
 	}
 });
 
@@ -107,27 +107,31 @@ jNumLifeEvents.addEventListener('change', function() {
 	generateInputsToAddEvents(jNumLifeEvents.value);
 });
 
-//EventListner to ensure that buttons were declared properly
+
 document.addEventListener('DOMContentLoaded', function() {
-    const btn1 = document.getElementById('btn1');
-    const btn2 = document.getElementById('btn2');
+	console.log('DOMContentLoaded ran!');
+	//Checking which html file we are on!
+	if (window.location.pathname.endsWith('index.html')){
+		console.log('We are in index.html');
+		const submitButton = document.getElementById('submit');
+		submitButton.addEventListener('click', function () {
+			navigate('index1');
+		});
+	}
+	else if (window.location.pathname.endsWith('index1.html')){
+		console.log('We are in index1.hmtl');
+		const returnButton = document.getElementById('returnHome');
+		returnButton.addEventListener('click', function() {
+			navigate('index');
+		});
+	}
+	else {
+		console.log('we are in neither index.html or in index1.html');
+		console.log(window.location.pathname);
+	}
 
-    if (btn1) {
-        console.log('btn1 is defined and found in the HTML.');
-    } else {
-        console.log('btn1 is NOT found in the HTML.');
-    }
+	function navigate(target) {
+		window.location.href = `${target}.html`;
+	}
 
-    if (btn2) {
-        console.log('btn2 is defined and found in the HTML.');
-    } else {
-        console.log('btn2 is NOT found in the HTML.');
-    }
 });
-
-//new Chart(
-//	type: 'line',
-//	data: {
-//		labels
-//	}
-//)
