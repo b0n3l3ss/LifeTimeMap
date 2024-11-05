@@ -7,8 +7,8 @@ const newPeopleDict = new Map;	// Map containing the infomration of additional p
 const eventDict = new Map;		// Map for containing life event information
 
 //Buttons from HTML file
-const btn1 = document.getElementById('verify1');
-const btn2 = document.getElementById('verify2');
+const jsVerifyBtn = document.getElementById('verify1');
+//const btn2 = document.getElementById('verify2');
 
 //Submit
 const sub = document.getElementById('submit');
@@ -66,22 +66,31 @@ function generateInputsToAddEvents(numIterations) {
 
 
 //Event listners to run javascript functions
-
-btn1.addEventListener('click', function() {
+//Need to make usre that this event listener is only initated when we are in index.html and not index1.html
+jsVerifyBtn.addEventListener('click', function() {
 	cannotContinue = false;
     yearValidation(jRootYoB);
-	
+
+	//Check to see if validation is running correctly
+	console.log(`The root birth year is valid if 0, otherwise is 1: ${cannotContinue}`);
+
 	for(i = 0; i < numAddPpl.value; i++) {
 		let eventName = document.getElementById(`${i}Name`);
 		let eventAge = document.getElementById(`${i}Age`);
 		let isValid = yearValidation(eventAge);
 		newPeopleDict.set(i, [eventName.value, eventAge.value]);
+
+		//This console log tells us if our additional birth years are valid
+		console.log(`Birth year of person #${i} is: ${cannotContinue}`);
 	}
 	for(i = 0; i < jNumLifeEvents.value; i++) {
 		let eventName = document.getElementById(`${i}Event`);
 		let eventAge = document.getElementById(`${i}YoE`);
 		let isValid = yearValidation(eventAge);
 		eventDict.set(i, [eventName.value, eventAge.value]);
+
+		//This console log tells us if our event years are valid
+		console.log(`Event year #${i} is: ${cannotContinue}`);
 	}
 
 
@@ -94,6 +103,7 @@ btn1.addEventListener('click', function() {
 		jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
 		sub.type = 'submit';
 	}
+	console.log(sub.type);  // Right now, we are getting that the type of input is not a button, but submit (which is wrong)
 });
 
 
@@ -111,10 +121,9 @@ jNumLifeEvents.addEventListener('change', function() {
 document.addEventListener('DOMContentLoaded', function() {
 	console.log('DOMContentLoaded ran!');
 	//Checking which html file we are on!
-	if (window.location.pathname.endsWith('index.html')){
+	if (window.location.pathname.endsWith('/')){
 		console.log('We are in index.html');
-		const submitButton = document.getElementById('submit');
-		submitButton.addEventListener('click', function () {
+		sub.addEventListener('click', function () {
 			navigate('index1');
 		});
 	}
@@ -132,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	function navigate(target) {
 		window.location.href = `${target}.html`;
+		console.log('Navigation function is called');
 	}
 
 });
