@@ -1,5 +1,6 @@
 import Chart from 'chart.js/auto';
 
+//let rootYoB = localStorage.getItem("")
 const jsRootData = [
     { year: 1935, count: 0 }, 
     { year: 2035, count: 100 }
