@@ -1,5 +1,8 @@
 import Plotly from 'plotly.js-dist';
 
+const lifeGraph = document.getElementById("lifeMapGraph");
+
+//Retrieving Root data for graph
 let rootName = localStorage.getItem("rootName");
 let rootYoB = Number(localStorage.getItem("rootYoB"));
 
@@ -27,8 +30,24 @@ function getByValue(map, searchValue) {
     }
 }
 document.addEventListener('DOMContentLoaded', function() {
-    
+
+    var trace1 = {
+        x: [1,1,1,1],
+        y: [10,15,13,17],
+        type: 'scatter'
+    };
+
+    var trace2 = {
+        x: [1, 2, 3, 4],
+        y: [16, 5, 11, 9],
+        type: 'scatter'
+    };
+
+    var data = [trace1, trace2];
+  
     const chartGraph = document.getElementById('lifeMapGraph');
+    Plotly.newPlot(lifeGraph, data);
+
     if (chartGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');
     } else {
