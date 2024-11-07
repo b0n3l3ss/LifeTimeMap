@@ -1,6 +1,5 @@
 //
 
-import { valueOrDefault } from "chart.js/helpers";
 
 const ageRegex = /^\d{4}$/;		// RegEx to validate Year of Birth
 let cannotContinue = false;		// Flag to not let script continue if invalid 

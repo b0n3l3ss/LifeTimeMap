@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+import Plotly from 'plotly.js-dist';
 
 let rootName = localStorage.getItem("rootName");
 let rootYoB = Number(localStorage.getItem("rootYoB"));
@@ -27,35 +27,7 @@ function getByValue(map, searchValue) {
     }
 }
 document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('lifeMapGraph').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: jsRootData.map(row => row.year),
-            datasets: [{
-                label: 'Life Map',
-                data: jsRootData.map(row => row.count)
-            }, 
-                {
-                    label: 'Another Person',
-                data: moreData.map(row => row.count)
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    min: 0,
-                    max: 100
-                },
-                x: {
-                    min: getByValue(jsRootData, 0),
-                    max: getByValue(jsRootData, 100)
-                }
-            }
-        }
-    });
-
+    
     const chartGraph = document.getElementById('lifeMapGraph');
     if (chartGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');

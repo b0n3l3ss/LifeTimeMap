@@ -1,12 +1,11 @@
 {
-  "dependencies": {
-    "chart.js": "^4.4.6"
-  },
   "devDependencies": {
     "parcel": "^2.12.0"
   },
   "scripts": {
     "start": "parcel serve index.html index1.html"
-}
-
+  },
+  "dependencies": {
+    "plotly.js-dist": "^2.35.2"
+  }
 }
