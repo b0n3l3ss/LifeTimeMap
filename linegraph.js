@@ -1,14 +1,23 @@
 import Chart from 'chart.js/auto';
 
-//let rootYoB = localStorage.getItem("")
+let rootName = localStorage.getItem("rootName");
+let rootYoB = Number(localStorage.getItem("rootYoB"));
+
+console.log(rootName);
+console.log(rootYoB);
+
+
 const jsRootData = [
-    { year: 1935, count: 0 }, 
-    { year: 2035, count: 100 }
+    { year: rootYoB, count: 0 }, 
+    { year: rootYoB + 100, count: 100 }
 ];
 
 const moreData = [
-    { year: 1975, count: 10 }, 
-    { year: 2055, count: 110 }
+    { year: rootYoB, count: -1 }, 
+    { year: 2000, count: -1 },
+    { year: 2000, count: 0 }, 
+    { year: 2000, count: 110 }, 
+    { year: rootYoB + 100, count: 110}
 ];
 
 function getByValue(map, searchValue) {
