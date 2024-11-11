@@ -23,7 +23,7 @@ var normalData = [];
 var invertedData = [];
 
 function retrieveDataFromStorage() {
-    // This loop creates the data array for both normal and inverted graph lives
+    // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
         let age = Number(localStorage.getItem(`${i}Age`));
 
@@ -46,7 +46,7 @@ function retrieveDataFromStorage() {
         invertedData.push(added);
     }
 
-    // This loop creates the data array for both nomral and inverted graph events
+    // This loop creates the data array for both nomral and inverted graph events.
     for(let i = 0; i < numEvents; i++) {
         let age = Number(localStorage.getItem(`${i}eventAge`));
         
@@ -72,6 +72,7 @@ function retrieveDataFromStorage() {
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    //The two different graph layouts for 
     var normalLayout = {
         xaxis: {
             range: [rootYoB, rootYoB + 100],
@@ -110,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
+    //The two different root data points. Used for the different maps.
     var normalRoot = {
         x: [rootYoB, rootYoB + 100],
         y: [0, 100],
@@ -124,21 +126,16 @@ document.addEventListener('DOMContentLoaded', function() {
         text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')]
     }
 
+    //Creates the two different arrays for graphing the map.
     normalData.push(normalRoot);
     invertedData.push(invertedRoot);
     retrieveDataFromStorage();
   
     const chartGraph = document.getElementById('lifeMapGraph');
-    let plot = Plotly.newPlot(lifeGraph, normalData, normalLayout);
+    Plotly.newPlot(lifeGraph, normalData, normalLayout);
 
-    
 
-    if (chartGraph) {
-        console.log('lifeMapGraph is defined and found in the HTML.');
-    } else {
-        console.log('lifeMapGraph is NOT found in the HTML.');
-    }
-
+    //Button handler that inverts the data given.
     invButton.addEventListener('click', function() {
         if (isInverted) {
             Plotly.newPlot(lifeGraph, normalData, normalLayout);
@@ -148,5 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
             isInverted = true;
         }
     });
+
+    if (chartGraph) {
+        console.log('lifeMapGraph is defined and found in the HTML.');
+    } else {
+        console.log('lifeMapGraph is NOT found in the HTML.');
+    }
 });
 

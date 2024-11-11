@@ -42,6 +42,7 @@ function yearValidation(checkedInput){
 	}
 }
 
+//Checks the validity of age entered for life event
 function ageValidation(checkInput) {
 	if (checkInput == null) {
 		cannotContinue = true;
@@ -158,10 +159,10 @@ if (window.location.pathname.endsWith('/')) {
 	});
 }
 
-
+//Event listener to navigate from each page
 document.addEventListener('DOMContentLoaded', function() {
 	console.log('DOMContentLoaded ran!');
-	//Checking which html file we are on!
+	//Checking which html file we are on
 	if (window.location.pathname.endsWith('/')){
 		console.log('We are in index.html');
 		sub.addEventListener('click', function () {
