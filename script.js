@@ -1,7 +1,8 @@
 //
 
 
-const ageRegex = /^\d{4}$/;		// RegEx to validate Year of Birth
+const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
+const ageRegEx = /^\d{2}$/;		//RegEx to validate event age
 let cannotContinue = false;		// Flag to not let script continue if invalid 
 								// information is inputed
 const newPeopleDict = new Map;	// Map containing the infomration of additional ppl
@@ -33,7 +34,20 @@ function yearValidation(checkedInput){
 		cannotContinue = true;
 		jYrError.innerHTML = "You must enter a valid birth year, please try again and input a valid year of the form ####";
 		return false;
-	} else if (ageRegex.test(checkedInput.value)) {
+	} else if (YoBRegEx.test(checkedInput.value)) {
+		return true;
+	} else {
+		cannotContinue = true;
+		return false;
+	}
+}
+
+function ageValidation(checkInput) {
+	if (checkInput == null) {
+		cannotContinue = true;
+		jYrError.innerHTML = "Invalid age for one of your events, must be of the form ##"
+		return false;
+	} else if (ageRegEx.test(checkInput.value)) {
 		return true;
 	} else {
 		cannotContinue = true;
@@ -92,7 +106,8 @@ if (window.location.pathname.endsWith('/')) {
 			//If the year is valid, then store data in local storage
 			if (yearValidation(eventAge)) {
 				localStorage.setItem(`${i}Name`, eventName.value);
-				localStorage.setItem(`${i}age`, eventAge.value);
+				localStorage.setItem(`${i}Age`, eventAge.value);
+
 			}
 			newPeopleDict.set(i, [eventName.value, eventAge.value]);
 
@@ -109,9 +124,9 @@ if (window.location.pathname.endsWith('/')) {
 			let eventAge = document.getElementById(`${i}YoE`);
 		
 			//If the year is valid, then store data in local storage
-			if (yearValidation(eventAge)) {
-				localStorage.setItem(`${i}name`, eventName.value);
-				localStorage.setItem(`${i}age`, eventAge.value);
+			if (ageValidation(eventAge)) {
+				localStorage.setItem(`${i}eventName`, eventName.value);
+				localStorage.setItem(`${i}eventAge`, eventAge.value);
 			}
 			eventDict.set(i, [eventName.value, eventAge.value]);
 
