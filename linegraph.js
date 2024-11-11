@@ -8,38 +8,71 @@ let rootYoB = Number(localStorage.getItem("rootYoB"));
 let numAddPpl = Number(localStorage.getItem("numPeople"));
 let numEvents = Number(localStorage.getItem("numLifeEvents"));
 
+
+//Button
+let invButton = document.getElementById("invertButton");
+
+//Flags
+let isInverted = false;
+
 console.log(rootName);
 console.log(rootYoB);
 
 
-var newData = [];
+var normalData = [];
+var invertedData = [];
 
 function retrieveDataFromStorage() {
+    // This loop creates the data array for both normal and inverted graph lives
     for(let i = 0; i < numAddPpl; i++) {
         let age = Number(localStorage.getItem(`${i}Age`));
+
+        // Normal Data
         var added = {
             x: [age, age + 100],
             y: [0,100],
             type: 'scatter',
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)]
         };
-        newData.push(added);
+        normalData.push(added);
+
+        // Inverted Data
+        var added = {
+            y: [age, age + 100],
+            x: [0,100],
+            type: 'scatter',
+            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)]
+        };
+        invertedData.push(added);
     }
+
+    // This loop creates the data array for both nomral and inverted graph events
     for(let i = 0; i < numEvents; i++) {
         let age = Number(localStorage.getItem(`${i}eventAge`));
+        
+        // Normal Data
         var added = {
             x: [0, rootYoB + age, 3000],
             y: [age, age, age],
             type: 'scatter',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)]
         };
-        newData.push(added);
+        normalData.push(added);
+
+        // Inverted Data
+        var added = {
+            y: [0, rootYoB + age, 3000],
+            x: [age, age, age],
+            type: 'scatter',
+            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)]
+        };
+        invertedData.push(added);
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    var layout = {
+    var normalLayout = {
         xaxis: {
             range: [rootYoB, rootYoB + 100],
             ticks: 'outside',
@@ -57,29 +90,63 @@ document.addEventListener('DOMContentLoaded', function() {
             tickcolor: '#000'
         }
     };
+
+    var invertedLayout = {
+        yaxis: {
+            range: [rootYoB, rootYoB + 100],
+            ticks: 'outside',
+            tick0: rootYoB,
+            dtick: 10,
+            ticklen: 0,
+            tickcolor: '#000'
+
+        },
+        xaxis: {
+            ticks: 'outside',
+            tick0: 0,
+            dtick: 10,
+            ticklen: 0,
+            tickcolor: '#000'
+        }
+    };
     
-    var root = {
+    var normalRoot = {
         x: [rootYoB, rootYoB + 100],
         y: [0, 100],
         type: 'scatter',
         text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')]
     };
 
-    var trace2 = {
-        x: [rootYoB, rootYoB + 100],
-        y: [0, 100],
-        type: 'scatter'
-    };
-    newData.push(root);
+    var invertedRoot = {
+        y: [rootYoB, rootYoB + 100],
+        x: [0, 100],
+        type: 'scatter',
+        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')]
+    }
+
+    normalData.push(normalRoot);
+    invertedData.push(invertedRoot);
     retrieveDataFromStorage();
   
     const chartGraph = document.getElementById('lifeMapGraph');
-    let plot = Plotly.newPlot(lifeGraph, newData, layout);
+    let plot = Plotly.newPlot(lifeGraph, normalData, normalLayout);
+
+    
 
     if (chartGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');
     } else {
         console.log('lifeMapGraph is NOT found in the HTML.');
     }
-    console.log(newData);
+
+    invButton.addEventListener('click', function() {
+        if (isInverted) {
+            Plotly.newPlot(lifeGraph, normalData, normalLayout);
+            isInverted = false;
+        } else {
+            Plotly.newPlot(lifeGraph, invertedData, invertedLayout);
+            isInverted = true;
+        }
+    });
 });
+
