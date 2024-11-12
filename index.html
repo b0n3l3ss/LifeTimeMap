@@ -7,15 +7,20 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <p>This is the home page, please input your information for the life </p>  
+    <h1>Life Time Map: Home Page</h1>
+    <p>This is a webpage to allow users to map out what their life looks like along side important people and important life events.  This map is an age versus year graph where <br> 
+        your life is depicted as a line.  Other important people in your life are depicted as solid lines as well, while important life events are depicted as dotted lines.  <br>
+        Instructions: You should enter your name and year of birth in the first two boxes for a basic map.  To add important people and life events, indicate how many of each <br>
+        by using the drop down menues.  This will generate text boxes for you to enter information about important people and important life events.  For the important people, <br>
+        indicate their name and what year they were born.  For the important life events, indicate what that life event is and at what age you have or intend to go through this event.
+    </p>  
     <form>
-        <label for="rootName">Name:</label>
+        <label for="rName">Name:</label>
         <input type="text" id="rName" name="rName"><br><br>
-        <label for="rootYoB">Year of Birth:</label>
+        <label for="rAge">Year of Birth:</label>
         <input type="text" id="rAge" name="rAge"><br><br>
 
-        <label for="lNumPeople">Additional People: </label>
+        <label for="sNumPeople">Additional People: </label>
         <select name="sNumPeople" id="sNumPeople">
             <option value="0">0</option>
             <option value="1">1</option>
@@ -28,10 +33,9 @@
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-        </select> <br> <br>
-        <p id="addPplInputs">There are no additional people at this point</p>
-        <p id="yrError"></p>
-        <br> <br>Number of Life Events: 
+        </select> <br>
+        <p id="addPplInputs"></p>
+        <label for="numLifeEvents">Number of Life Events: </label>
         <select name="numLifeEvents" id="numLifeEvents">
             <option value="0">0</option>
             <option value="1">1</option>
@@ -44,11 +48,11 @@
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-        </select> <br> <br>
-        <p id="addEvents">There are no life events at this point</p>
+        </select> <br>
+        <p id="addEvents"></p>
         <input type="button" id="verify1" value="Verify Additional People and Life Events"></input>
         <input type="submit" value="Submit" id="submit" data-target="index1">
-        
+        <p id="yrError"></p>
     </form>
     <br>
     

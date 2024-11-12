@@ -1,4 +1,4 @@
-//
+//Script for most 
 
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
@@ -62,9 +62,9 @@ function generateInputsToAddPeople(numIterations) {
 
 	addPpl.innerHTML = '';
 	for(let i = 0; i < numIterations; i++) {
-		addPpl.innerHTML += `<label for="${i}NameLabel">Name #${i+1}: </label>`;
+		addPpl.innerHTML += `<label for="${i}Name">Name #${i+1}: </label>`;
 		addPpl.innerHTML += `<input type="text" id="${i}Name" name="${i + 1}Name">`;
-		addPpl.innerHTML += `<label for="${i}YoBLabel">		Year of Birth #${i + 1}: </label>`;
+		addPpl.innerHTML += `<label for="${i}Age">		Year of Birth #${i + 1}: </label>`;
 		addPpl.innerHTML += `<input type="text" id="${i}Age" name="${i + 1}Age"><br></br>`;
 	}
 }
@@ -75,9 +75,9 @@ function generateInputsToAddPeople(numIterations) {
 function generateInputsToAddEvents(numIterations) {
 	jAddEvents.innerHTML = '';
 	for (let i = 0; i < numIterations; ++i) {
-		jAddEvents.innerHTML += `<label for="${i}EventLabel">Name #${i+1}: </label>`;
+		jAddEvents.innerHTML += `<label for="${i}Event">Event #${i+1}: </label>`;
 		jAddEvents.innerHTML += `<input type="text" id="${i}Event" name="${i + 1}Event">`;
-		jAddEvents.innerHTML += `<label for="${i}YoELabel">		Year of Event #${i + 1}: </label>`;
+		jAddEvents.innerHTML += `<label for="${i}YoE">		Year of Event #${i + 1}: </label>`;
 		jAddEvents.innerHTML += `<input type="text" id="${i}YoE" name="${i + 1}YoE"><br></br>`;
 	}
 }
@@ -143,6 +143,7 @@ if (window.location.pathname.endsWith('/')) {
 		}
 		else{
 			jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
+			localStorage.clear;
 			sub.type = 'submit';
 		}
 		console.log(sub.type);  // Right now, we are getting that the type of input is not a button, but submit (which is wrong)

@@ -1,6 +1,8 @@
 import Plotly from 'plotly.js-dist';
 
+//Display Elements for index1
 const lifeGraph = document.getElementById("lifeMapGraph");
+const headLine = document.getElementById("graphHeadline");
 
 //Retrieving Root data for graph
 let rootName = localStorage.getItem("rootName");
@@ -32,7 +34,8 @@ function retrieveDataFromStorage() {
             x: [age, age + 100],
             y: [0,100],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)]
+            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
+            textposition: 'top center'
         };
         normalData.push(added);
 
@@ -41,7 +44,8 @@ function retrieveDataFromStorage() {
             y: [age, age + 100],
             x: [0,100],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)]
+            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
+            textposition: 'top center'
         };
         invertedData.push(added);
     }
@@ -55,7 +59,10 @@ function retrieveDataFromStorage() {
             x: [0, rootYoB + age, 3000],
             y: [age, age, age],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)]
+            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            line: {
+                dash: 'dot'
+            }
         };
         normalData.push(added);
 
@@ -64,7 +71,10 @@ function retrieveDataFromStorage() {
             y: [0, rootYoB + age, 3000],
             x: [age, age, age],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)]
+            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            line: {
+                dash: 'dot'
+            }
         };
         invertedData.push(added);
     }
@@ -140,9 +150,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isInverted) {
             Plotly.newPlot(lifeGraph, normalData, normalLayout);
             isInverted = false;
+            headLine.innerHTML = "Life Time Map";
         } else {
             Plotly.newPlot(lifeGraph, invertedData, invertedLayout);
             isInverted = true;
+            headLine.innerHTML = "Inverted Life Time Map";
         }
     });
 
