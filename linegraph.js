@@ -35,7 +35,8 @@ function retrieveDataFromStorage() {
             y: [0,100],
             type: 'scatter',
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
-            textposition: 'top center'
+            textposition: 'top center',
+            name: localStorage.getItem(`${i}Name`)
         };
         normalData.push(added);
 
@@ -45,7 +46,8 @@ function retrieveDataFromStorage() {
             x: [0,100],
             type: 'scatter',
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
-            textposition: 'top center'
+            textposition: 'top center',
+            name: localStorage.getItem(`${i}Name`)
         };
         invertedData.push(added);
     }
@@ -62,7 +64,8 @@ function retrieveDataFromStorage() {
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
             line: {
                 dash: 'dot'
-            }
+            },
+            name: localStorage.getItem(`${i}eventName`)
         };
         normalData.push(added);
 
@@ -74,7 +77,8 @@ function retrieveDataFromStorage() {
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
             line: {
                 dash: 'dot'
-            }
+            },
+            name: localStorage.getItem(`${i}eventName`)
         };
         invertedData.push(added);
     }
@@ -85,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //The two different graph layouts for 
     var normalLayout = {
         xaxis: {
+            title: "Year",
             range: [rootYoB, rootYoB + 100],
             ticks: 'outside',
             tick0: rootYoB,
@@ -94,16 +99,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         },
         yaxis: {
+            title: "Age",
+            range: [0,100],
             ticks: 'outside',
             tick0: 0,
             dtick: 10,
             ticklen: 0,
             tickcolor: '#000'
-        }
+        },
+        //legend: {
+        //    x: -5,
+        //    y: .27
+        //}
     };
 
     var invertedLayout = {
         yaxis: {
+            title: "Year",
             range: [rootYoB, rootYoB + 100],
             ticks: 'outside',
             tick0: rootYoB,
@@ -113,6 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         },
         xaxis: {
+            title: "Age",
+            range: [0,100],
             ticks: 'outside',
             tick0: 0,
             dtick: 10,
@@ -126,14 +140,17 @@ document.addEventListener('DOMContentLoaded', function() {
         x: [rootYoB, rootYoB + 100],
         y: [0, 100],
         type: 'scatter',
-        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')]
+        //mode: 'lines+text',
+        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
+        name: localStorage.getItem('rootName')
     };
 
     var invertedRoot = {
         y: [rootYoB, rootYoB + 100],
         x: [0, 100],
         type: 'scatter',
-        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')]
+        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
+        name: localStorage.getItem('rootName')
     }
 
     //Creates the two different arrays for graphing the map.
