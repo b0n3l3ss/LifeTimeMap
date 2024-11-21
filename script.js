@@ -85,7 +85,7 @@ function generateInputsToAddEvents(numIterations) {
 
 //Event listners to run javascript functions for index.html
 if (window.location.pathname.endsWith('/')) {
-	
+
 	jsVerifyBtn.addEventListener('click', function() {
 		cannotContinue = false;
 		if (yearValidation(jRootYoB)) {
@@ -162,13 +162,101 @@ if (window.location.pathname.endsWith('/')) {
 
 //Event listener to navigate from each page
 document.addEventListener('DOMContentLoaded', function() {
-	console.log('DOMContentLoaded ran!');
+
 	//Checking which html file we are on
 	if (window.location.pathname.endsWith('/')){
 		console.log('We are in index.html');
 		sub.addEventListener('click', function () {
 			navigate('index1.html');
 		});
+
+
+
+		console.log('This beginning function was run');
+		var DELIMITER = ',';
+		var NEWLINE = '\n';
+		var inputFile = document.getElementById('fileInput');
+		var table = document.getElementById('table');
+
+		if (!inputFile) {
+			console.log("input file is null");
+			return;
+		}
+
+		inputFile.addEventListener('change', function() {
+			if (!!fileInput.files && fileInput.files.length > 0) {
+				console.log('The event listner was triggered and the csv is going to be parsed.');
+				parseCSV(fileInput.files[0]);
+			}
+		});
+
+		function parseCSV(file) {
+			if (!file || !FileReader){
+				console.log("file or FileReader not found");
+				return;
+			}
+
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				toTable(e.target.result);
+			};
+
+			reader.readAsText(file);
+		}
+
+		function toTable(text) {
+			if (!text || !table)
+				return;
+
+			while(!!table.lastElementChild) {
+				table.removeChild(table.lastElementChild);
+			}
+			
+			var rows = text.split(NEWLINE);
+			var headers = rows.shift().trim().split(DELIMITER);
+			var htr = document.createElement('tr');
+
+			headers.forEach(function (h) {
+				var th = document.createElement('th');
+				var ht = h.trim();
+
+				if (!ht) {
+					return;
+				}
+				th.textContent = ht;
+				htr.appendChild(th)
+			});
+
+			table.appendChild(htr);
+
+			var rtr;
+
+			rows.forEach(function(r) {
+				r = r.trim();
+
+				if (!r)
+					return;
+
+				var cols = r.split(DELIMITER);
+
+				if (cols.length === 0)
+					return;
+				
+				rtr = document.createElement('tr');
+				
+				cols.forEach(function (c) {
+					var td = document.createElement('td');
+					var tc = c.trim();
+
+					td.textContent = tc;
+					rtr.appendChild(td);
+				});
+
+				table.appendChild(rtr);
+
+			});
+		}
 	}
 	else if (window.location.pathname.endsWith('index1.html')){
 		console.log('We are in index1.hmtl');

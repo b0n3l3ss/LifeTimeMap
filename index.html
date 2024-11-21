@@ -15,7 +15,10 @@
         by using the drop down menues.  This will generate text boxes for you to enter information about important people and important life events.  For the important people, <br>
         indicate their name and what year they were born.  For the important life events, indicate what that life event is and at what age you have or intend to go through this event.
     </p>  
+    <br>
+    <p>Either imput data manualy or use imput csv file below to read data.</p>
     <form>
+        <input type="file" id="fileInput" accept=".csv,.json" />
         <label for="rName">Name:</label>
         <input type="text" id="rName" name="rName"><br><br>
         <label for="rAge">Year of Birth:</label>
@@ -54,6 +57,7 @@
         <input type="button" id="verify1" value="Verify Additional People and Life Events"></input>
         <input type="submit" value="Submit" id="submit" data-target="index1">
         <p id="yrError"></p>
+        <table id="table"></table>
     </form>
     <br>
     

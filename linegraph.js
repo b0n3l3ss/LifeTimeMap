@@ -36,7 +36,10 @@ function retrieveDataFromStorage() {
             type: 'scatter',
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
             textposition: 'top center',
-            name: localStorage.getItem(`${i}Name`)
+            name: localStorage.getItem(`${i}Name`),
+            line: {
+                width: 4
+            }
         };
         normalData.push(added);
 
@@ -47,7 +50,10 @@ function retrieveDataFromStorage() {
             type: 'scatter',
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
             textposition: 'top center',
-            name: localStorage.getItem(`${i}Name`)
+            name: localStorage.getItem(`${i}Name`),
+            line: {
+                width: 4
+            }
         };
         invertedData.push(added);
     }
@@ -63,7 +69,8 @@ function retrieveDataFromStorage() {
             type: 'scatter',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
             line: {
-                dash: 'dot'
+                dash: 'dot',
+                width: 4
             },
             name: localStorage.getItem(`${i}eventName`)
         };
@@ -76,7 +83,8 @@ function retrieveDataFromStorage() {
             type: 'scatter',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
             line: {
-                dash: 'dot'
+                dash: 'dot',
+                width: 4
             },
             name: localStorage.getItem(`${i}eventName`)
         };
@@ -142,7 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'scatter',
         //mode: 'lines+text',
         text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
-        name: localStorage.getItem('rootName')
+        name: localStorage.getItem('rootName'),
+        line: {
+            width: 4
+        }
     };
 
     var invertedRoot = {
@@ -150,7 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
         x: [0, 100],
         type: 'scatter',
         text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
-        name: localStorage.getItem('rootName')
+        name: localStorage.getItem('rootName'),
+        line: {
+            width: 4
+        }
     }
 
     //Creates the two different arrays for graphing the map.
