@@ -100,7 +100,7 @@ if (window.location.pathname.endsWith('/')) {
 		localStorage.setItem("numPeople", numAddPpl.value);
 
 		//Verify and add additional people information into local storage
-		for(i = 0; i < numAddPpl.value; i++) {
+		for(let i = 0; i < numAddPpl.value; i++) {
 			let eventName = document.getElementById(`${i}Name`);
 			let eventAge = document.getElementById(`${i}Age`);
 
