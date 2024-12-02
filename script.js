@@ -120,7 +120,7 @@ if (window.location.pathname.endsWith('/')) {
 		localStorage.setItem("numLifeEvents", jNumLifeEvents.value);
 
 		//Verify and store life event data into local storage
-		for(i = 0; i < jNumLifeEvents.value; i++) {
+		for(let i = 0; i < jNumLifeEvents.value; i++) {
 			let eventName = document.getElementById(`${i}Event`);
 			let eventAge = document.getElementById(`${i}YoE`);
 		
