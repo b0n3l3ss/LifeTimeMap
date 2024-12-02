@@ -4,7 +4,7 @@
   },
   "scripts": {
     "start": "parcel serve index.html index1.html",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "build": "parcel build index.html index1.html --dist-dir ./dist"
   },
   "dependencies": {
     "plotly.js-dist": "^2.35.2"
