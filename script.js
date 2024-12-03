@@ -2,7 +2,7 @@
 
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
-const ageRegEx = /^\d{2}$/;		//RegEx to validate event age
+const ageRegEx = /^\d{1,2}$/;		//RegEx to validate event age
 let cannotContinue = false;		// Flag to not let script continue if invalid 
 								// information is inputed
 const newPeopleDict = new Map;	// Map containing the infomration of additional ppl
