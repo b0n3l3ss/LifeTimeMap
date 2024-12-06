@@ -181,12 +181,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	//Checking which html file we are on
 	if (window.location.pathname.endsWith('/')){
-		//console.log('We are in index.html');
 		sub.addEventListener('click', function () {
 			navigate('index1.html');
 		});
 
-		//console.log('This beginning function was run');
 		var DELIMITER = ',';
 		var NEWLINE = '\n';
 		var inputFile = document.getElementById('fileInput');
@@ -199,7 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		inputFile.addEventListener('change', function() {
 			if (!!fileInput.files && fileInput.files.length > 0) {
-				//console.log('The event listner was triggered and the csv is going to be parsed.');
 				parseCSV(fileInput.files[0]);
 			}
 		});
@@ -242,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			// If both numbers are valid, push them to the right boxes
 			if(numValidation(nAddPpl) && numValidation(nEvents)) {
-				console.log("Reading in numbers");
 				numAddPpl.value = nAddPpl;
 				generateInputsToAddPeople(numAddPpl.value);
 				jNumLifeEvents.value = nEvents;
@@ -253,18 +249,14 @@ document.addEventListener('DOMContentLoaded', function() {
 					let data = rows[i].split(DELIMITER);
 					
 					document.getElementById(`${i - 2}Name`).value = data[0]; //Sets Name
-					//document.getElementById(`${i - 2}Name`).innerHTML = data[0];
 					document.getElementById(`${i - 2}Age`).value = Number(data[1]); //Sets Year of Birth
-					//document.getElementById(`${i - 2}Age`).innerHTML = data[1];
 				}
 
 				for (let i = 2 + nAddPpl; i < 2 + nAddPpl + nEvents; i++) { // Life Events
 					let data = rows[i].split(DELIMITER);
 
 					document.getElementById(`${i - 2 - nAddPpl}Event`).value = data[0];
-					//document.getElementById(`${i - 2 - nAddPpl}Event`).innerHTML = data[0];
 					document.getElementById(`${i - 2 - nAddPpl}YoE`).value = Number(data[1]);
-					//document.getElementById(`${i - 2 - nAddPpl}YoE`).innerHTML = data[1];
 				}
 			}
 			
@@ -274,51 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			let rYoB = Number(root[1]);
 			
 			if (yearValidation(rYoB)){
-				console.log("Reading in root information");
 				jRootName.value = rName;
 				jRootYoB.value = rYoB;
-				
+
 			}
-
-			// headers.forEach(function (h) {
-			// 	var th = document.createElement('th');
-			// 	var ht = h.trim();
-
-			// 	if (!ht) {
-			// 		return;
-			// 	}
-			// 	th.textContent = ht;
-			// 	htr.appendChild(th)
-			// });
-
-			// table.appendChild(htr);
-
-			// var rtr;
-
-			// rows.forEach(function(r) {
-			// 	r = r.trim();
-
-			// 	if (!r)
-			// 		return;
-
-			// 	var cols = r.split(DELIMITER);
-
-			// 	if (cols.length === 0)
-			// 		return;
-				
-			// 	rtr = document.createElement('tr');
-				
-			// 	cols.forEach(function (c) {
-			// 		var td = document.createElement('td');
-			// 		var tc = c.trim();
-
-			// 		td.textContent = tc;
-			// 		rtr.appendChild(td);
-			// 	});
-
-			// 	table.appendChild(rtr);
-
-			// });
 		}
 	}
 	else if (window.location.pathname.endsWith('index1.html')){
