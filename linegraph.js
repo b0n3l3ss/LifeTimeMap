@@ -195,4 +195,3 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('lifeMapGraph is NOT found in the HTML.');
     }
 });
-

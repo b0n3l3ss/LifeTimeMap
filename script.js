@@ -2,7 +2,8 @@
 
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
-const ageRegEx = /^\d{2}$/;		//RegEx to validate event age
+const ageRegEx = /^\d{1,2}$/;	// RegEx to validate event age
+const numRegEx = /^\d{1}$/;		// RegEx to validate num of events and add people
 let cannotContinue = false;		// Flag to not let script continue if invalid 
 								// information is inputed
 const newPeopleDict = new Map;	// Map containing the infomration of additional ppl
@@ -34,7 +35,7 @@ function yearValidation(checkedInput){
 		cannotContinue = true;
 		jYrError.innerHTML = "You must enter a valid birth year, please try again and input a valid year of the form ####";
 		return false;
-	} else if (YoBRegEx.test(checkedInput.value)) {
+	} else if (YoBRegEx.test(checkedInput)) {
 		return true;
 	} else {
 		cannotContinue = true;
@@ -51,6 +52,21 @@ function ageValidation(checkInput) {
 	} else if (ageRegEx.test(checkInput.value)) {
 		return true;
 	} else {
+		cannotContinue = true;
+		return false;
+	}
+}
+
+//Checks the validity of entered numbers for num events and num add people
+function numValidation(checkInput) {
+	if (checkInput == null) {
+		cannotContinue = true;
+		console.log("The input for one either the number of additional people or number of events is null");
+		return false;
+	} else if (numRegEx.test(checkInput)) {
+		return true;
+	} else {
+		console.log("The number for the additional people or the number of events is null");
 		cannotContinue = true;
 		return false;
 	}
@@ -88,7 +104,7 @@ if (window.location.pathname.endsWith('/')) {
 
 	jsVerifyBtn.addEventListener('click', function() {
 		cannotContinue = false;
-		if (yearValidation(jRootYoB)) {
+		if (yearValidation(jRootYoB.value)) {
 			localStorage.setItem("rootName", jRootName.value);
 			localStorage.setItem("rootYoB", jRootYoB.value);
 		}
@@ -100,12 +116,12 @@ if (window.location.pathname.endsWith('/')) {
 		localStorage.setItem("numPeople", numAddPpl.value);
 
 		//Verify and add additional people information into local storage
-		for(i = 0; i < numAddPpl.value; i++) {
+		for(let i = 0; i < numAddPpl.value; i++) {
 			let eventName = document.getElementById(`${i}Name`);
 			let eventAge = document.getElementById(`${i}Age`);
 
 			//If the year is valid, then store data in local storage
-			if (yearValidation(eventAge)) {
+			if (yearValidation(eventAge.value)) {
 				localStorage.setItem(`${i}Name`, eventName.value);
 				localStorage.setItem(`${i}Age`, eventAge.value);
 
@@ -165,14 +181,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	//Checking which html file we are on
 	if (window.location.pathname.endsWith('/')){
-		console.log('We are in index.html');
+		//console.log('We are in index.html');
 		sub.addEventListener('click', function () {
 			navigate('index1.html');
 		});
 
-
-
-		console.log('This beginning function was run');
+		//console.log('This beginning function was run');
 		var DELIMITER = ',';
 		var NEWLINE = '\n';
 		var inputFile = document.getElementById('fileInput');
@@ -185,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		inputFile.addEventListener('change', function() {
 			if (!!fileInput.files && fileInput.files.length > 0) {
-				console.log('The event listner was triggered and the csv is going to be parsed.');
+				//console.log('The event listner was triggered and the csv is going to be parsed.');
 				parseCSV(fileInput.files[0]);
 			}
 		});
@@ -206,8 +220,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		function toTable(text) {
-			if (!text || !table)
+			if (!text || !table) {
+				console.log("Either text or table is not defined.");
 				return;
+			}
 
 			while(!!table.lastElementChild) {
 				table.removeChild(table.lastElementChild);
@@ -217,45 +233,92 @@ document.addEventListener('DOMContentLoaded', function() {
 			var headers = rows.shift().trim().split(DELIMITER);
 			var htr = document.createElement('tr');
 
-			headers.forEach(function (h) {
-				var th = document.createElement('th');
-				var ht = h.trim();
 
-				if (!ht) {
-					return;
+			let numbers = rows[0].split(DELIMITER);
+			
+			//This block of code gives us the number of add people and life events
+			let nAddPpl = Number(numbers[0]);
+			let nEvents = Number(numbers[1]);
+			
+			// If both numbers are valid, push them to the right boxes
+			if(numValidation(nAddPpl) && numValidation(nEvents)) {
+				console.log("Reading in numbers");
+				numAddPpl.value = nAddPpl;
+				generateInputsToAddPeople(numAddPpl.value);
+				jNumLifeEvents.value = nEvents;
+				generateInputsToAddEvents(jNumLifeEvents.value);
+				
+				//Inputs data values into the generated boxes above
+				for (let i = 2; i < 2 + nAddPpl; i++) { // Additional People
+					let data = rows[i].split(DELIMITER);
+					
+					document.getElementById(`${i - 2}Name`).value = data[0]; //Sets Name
+					//document.getElementById(`${i - 2}Name`).innerHTML = data[0];
+					document.getElementById(`${i - 2}Age`).value = Number(data[1]); //Sets Year of Birth
+					//document.getElementById(`${i - 2}Age`).innerHTML = data[1];
 				}
-				th.textContent = ht;
-				htr.appendChild(th)
-			});
 
-			table.appendChild(htr);
+				for (let i = 2 + nAddPpl; i < 2 + nAddPpl + nEvents; i++) { // Life Events
+					let data = rows[i].split(DELIMITER);
 
-			var rtr;
-
-			rows.forEach(function(r) {
-				r = r.trim();
-
-				if (!r)
-					return;
-
-				var cols = r.split(DELIMITER);
-
-				if (cols.length === 0)
-					return;
+					document.getElementById(`${i - 2 - nAddPpl}Event`).value = data[0];
+					//document.getElementById(`${i - 2 - nAddPpl}Event`).innerHTML = data[0];
+					document.getElementById(`${i - 2 - nAddPpl}YoE`).value = Number(data[1]);
+					//document.getElementById(`${i - 2 - nAddPpl}YoE`).innerHTML = data[1];
+				}
+			}
+			
+			//This block of code retrieves the root name and Year of Birth
+			let root = rows[1].split(DELIMITER);
+			let rName = root[0];
+			let rYoB = Number(root[1]);
+			
+			if (yearValidation(rYoB)){
+				console.log("Reading in root information");
+				jRootName.value = rName;
+				jRootYoB.value = rYoB;
 				
-				rtr = document.createElement('tr');
+			}
+
+			// headers.forEach(function (h) {
+			// 	var th = document.createElement('th');
+			// 	var ht = h.trim();
+
+			// 	if (!ht) {
+			// 		return;
+			// 	}
+			// 	th.textContent = ht;
+			// 	htr.appendChild(th)
+			// });
+
+			// table.appendChild(htr);
+
+			// var rtr;
+
+			// rows.forEach(function(r) {
+			// 	r = r.trim();
+
+			// 	if (!r)
+			// 		return;
+
+			// 	var cols = r.split(DELIMITER);
+
+			// 	if (cols.length === 0)
+			// 		return;
 				
-				cols.forEach(function (c) {
-					var td = document.createElement('td');
-					var tc = c.trim();
+			// 	rtr = document.createElement('tr');
+				
+			// 	cols.forEach(function (c) {
+			// 		var td = document.createElement('td');
+			// 		var tc = c.trim();
 
-					td.textContent = tc;
-					rtr.appendChild(td);
-				});
+			// 		td.textContent = tc;
+			// 		rtr.appendChild(td);
+			// 	});
 
-				table.appendChild(rtr);
+			// 	table.appendChild(rtr);
 
-			});
+			// });
 		}
 	}
 	else if (window.location.pathname.endsWith('index1.html')){
