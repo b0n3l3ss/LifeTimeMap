@@ -50,7 +50,7 @@ function retrieveLivesDataFromStorage() {
             x: [0,50,100],
             type: 'scatter',
             mode: "lines+text",
-            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`), ""],
+            text:["", localStorage.getItem(`${i}Name`), ""],
             textposition: 'auto',
             name: localStorage.getItem(`${i}Name`),
             line: {
@@ -140,7 +140,9 @@ function placeLabelsOnLives() {
             x: [0, rootYoB + age, 3000],
             y: [age, age, age],
             type: 'scatter',
+            mode: 'lines+text',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            textposition: 'auto',
             line: {
                 dash: 'dot',
                 width: 4
@@ -154,7 +156,9 @@ function placeLabelsOnLives() {
             y: [0, rootYoB + age, 3000],
             x: [age, age, age],
             type: 'scatter',
+            mode: 'lines+text',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            textposition: 'auto',
             line: {
                 dash: 'dot',
                 width: 4
@@ -215,11 +219,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     //The two different root data points. Used for the different maps.
     var normalRoot = {
-        x: [rootYoB, rootYoB + 100],
-        y: [0, 100],
+        x: [rootYoB, rootYoB + 5, rootYoB + 100],
+        y: [0, 5, 100],
         type: 'scatter',
-        //mode: 'lines+text',
-        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
+        mode: 'lines+text',
+        text: ["", localStorage.getItem('rootName'), ""],
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
@@ -227,10 +231,11 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     var invertedRoot = {
-        y: [rootYoB, rootYoB + 100],
-        x: [0, 100],
+        y: [rootYoB, rootYoB + 5, rootYoB + 100],
+        x: [0, 5, 100],
         type: 'scatter',
-        text: [localStorage.getItem('rootName'), localStorage.getItem('rootName')],
+        mode: 'lines+text',
+        text: ["", localStorage.getItem('rootName'), ""],
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
