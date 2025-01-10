@@ -36,7 +36,7 @@ function retrieveLivesDataFromStorage() {
             type: 'scatter',
             mode: "lines+text",
             text:["", localStorage.getItem(`${i}Name`), ""],
-            textposition: 'auto',
+            textposition: 'top left',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
@@ -51,7 +51,7 @@ function retrieveLivesDataFromStorage() {
             type: 'scatter',
             mode: "lines+text",
             text:["", localStorage.getItem(`${i}Name`), ""],
-            textposition: 'auto',
+            textposition: 'top left',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
@@ -142,7 +142,7 @@ function placeLabelsOnLives() {
             type: 'scatter',
             mode: 'lines+text',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
-            textposition: 'auto',
+            textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
@@ -158,7 +158,7 @@ function placeLabelsOnLives() {
             type: 'scatter',
             mode: 'lines+text',
             text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
-            textposition: 'auto',
+            textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
@@ -223,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
         y: [0, 5, 100],
         type: 'scatter',
         mode: 'lines+text',
-        text: ["", localStorage.getItem('rootName'), ""],
-        textposition: 'auto',
+        text: ["", rootName, ""],
+        textposition: 'top left',
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
@@ -236,8 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
         x: [0, 5, 100],
         type: 'scatter',
         mode: 'lines+text',
-        text: ["", localStorage.getItem('rootName'), ""],
-        textposition: 'auto',
+        text: ["", rootName, ""],
+        textposition: 'top left',
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
@@ -262,11 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isInverted) {
             Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
             isInverted = false;
-            headLine.innerHTML = "Life Time Map";
         } else {
             Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
             isInverted = true;
-            headLine.innerHTML = "Inverted Life Time Map";
         }
     });
 

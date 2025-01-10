@@ -6,6 +6,7 @@
     <title>Home: Data Entry</title>
     
     <script type="module" src="script.js"></script>
+    <script type="module" src="linegraph.js"></script>
 </head>
 <body>
     <h1>Life Time Map: Home Page</h1>
@@ -17,7 +18,7 @@
     </p>  
     <br>
     <p>Either imput data manualy or use imput csv file below to read data.</p>
-    <form>
+    <div>
         <input type="file" id="fileInput" accept=".csv,.json" /> <br> <br>
         <label for="rName">Name:</label>
         <input type="text" id="rName" name="rName"><br><br>
@@ -58,7 +59,10 @@
         <input type="submit" value="Submit" id="submit" data-target="index1">
         <p id="yrError"></p>
         <table id="table"></table>
-    </form>
+    </div>
+    <div style="width: 900px; height: 800px;" id="lifeMapGraph"></div>
+    <input type="button" value="Invert Life Map" id="invertButton">
+    <input type="button" value="Return To Home Page" id="returnHome" data-target="index">
     <br>
     
 </body>
