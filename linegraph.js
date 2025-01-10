@@ -224,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'scatter',
         mode: 'lines+text',
         text: ["", localStorage.getItem('rootName'), ""],
+        textposition: 'auto',
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
@@ -236,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'scatter',
         mode: 'lines+text',
         text: ["", localStorage.getItem('rootName'), ""],
+        textposition: 'auto',
         name: localStorage.getItem('rootName'),
         line: {
             width: 4
