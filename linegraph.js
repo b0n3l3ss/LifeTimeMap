@@ -36,7 +36,7 @@ function retrieveLivesDataFromStorage() {
             type: 'scatter',
             mode: "lines+text",
             text:["", localStorage.getItem(`${i}Name`), ""],
-            textposition: 'top center',
+            textposition: 'auto',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
@@ -51,7 +51,7 @@ function retrieveLivesDataFromStorage() {
             type: 'scatter',
             mode: "lines+text",
             text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`), ""],
-            textposition: 'top center',
+            textposition: 'auto',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
@@ -108,15 +108,23 @@ function placeLabelsOnLives() {
     //Label the Younger People
     for (let i = 1; i <= lastYoungerPerson; i++) {
         let aYoBOfCurrentPerson = sortedNormalData[i].x[0];
+
         sortedNormalData[i].x[1] = aYoBOfCurrentPerson + youngAgeDiffMin + ((i - 1) * youngRate);
         sortedNormalData[i].y[1] = youngAgeDiffMin + ((i - 1) * youngRate);
+
+        sortedInvertedData[i].y[1] = aYoBOfCurrentPerson + youngAgeDiffMin + ((i - 1) * youngRate);
+        sortedInvertedData[i].x[1] = youngAgeDiffMin + ((i - 1) * youngRate);
     }
 
     //Label the Older People
     for (let i = numLives - 1; i >= firstOlderPerson; i--) {
         let aYoBOfCurrentPerson = sortedNormalData[i].x[0];
+
         sortedNormalData[i].x[1] = aYoBOfCurrentPerson + olderAgeDiffMax - ((numLives - i - 1) * olderRate);
         sortedNormalData[i].y[1] = olderAgeDiffMax - ((numLives - i - 1) * olderRate);
+
+        sortedInvertedData[i].y[1] = aYoBOfCurrentPerson + olderAgeDiffMax - ((numLives - i - 1) * olderRate);
+        sortedInvertedData[i].x[1] = olderAgeDiffMax - ((numLives - i - 1) * olderRate);
     }
 
     
