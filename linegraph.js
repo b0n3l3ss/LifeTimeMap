@@ -17,47 +17,112 @@ let invButton = document.getElementById("invertButton");
 //Flags
 let isInverted = false;
 
-console.log(rootName);
-console.log(rootYoB);
+//Data Arrays
+var unsortedNormalData = [];
+var sortedNormalData = [];
+var unsortedInvertedData = [];
+var sortedInvertedData = [];
 
 
-var normalData = [];
-var invertedData = [];
-
-function retrieveDataFromStorage() {
+function retrieveLivesDataFromStorage() {
     // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
         let age = Number(localStorage.getItem(`${i}Age`));
 
         // Normal Data
         var added = {
-            x: [age, age + 100],
-            y: [0,100],
+            x: [age, age + 50, age + 100],
+            y: [0,50, 100],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
+            mode: "lines+text",
+            text:["", localStorage.getItem(`${i}Name`), ""],
             textposition: 'top center',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
             }
         };
-        normalData.push(added);
+        unsortedNormalData.push(added);
 
         // Inverted Data
         var added = {
-            y: [age, age + 100],
-            x: [0,100],
+            y: [age, age + 50, age + 100],
+            x: [0,50,100],
             type: 'scatter',
-            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`)],
+            mode: "lines+text",
+            text:[localStorage.getItem(`${i}Name`), localStorage.getItem(`${i}Name`), ""],
             textposition: 'top center',
             name: localStorage.getItem(`${i}Name`),
             line: {
                 width: 4
             }
         };
-        invertedData.push(added);
+        unsortedInvertedData.push(added);
+    }
+}
+
+function sortData() {
+    //This function is going to sort the data we have so that we can properly graph the labels
+    while (0 < unsortedNormalData.length) {
+        let largest = 0;
+        let {x:largestAge} = unsortedNormalData[largest];
+        for (let j = 0; j < unsortedNormalData.length; j++){
+            let {x:checkingAge} = unsortedNormalData[j];
+            if (largestAge[0] < checkingAge[0]) {
+                largest = j;
+                largestAge = unsortedNormalData[largest].x;
+            }
+        }
+        
+        sortedNormalData.push(unsortedNormalData[largest]);
+        sortedInvertedData.push(unsortedInvertedData[largest]);
+
+        unsortedNormalData.splice(largest, 1);
+        unsortedInvertedData.splice(largest, 1);
+    }
+};
+function placeLabelsOnLives() {
+
+    //The number o
+    let numLives = sortedNormalData.length;
+
+    //Find index of youngest person older than root
+    let firstOlderPerson = 1;
+    while (sortedNormalData[0].x[0] < sortedNormalData[firstOlderPerson].x[0]) {
+        firstOlderPerson++;
+    }
+    let lastYoungerPerson = firstOlderPerson - 1;
+    console.log(firstOlderPerson);
+
+    //Find scale to space people
+    let youngPeopleAgeDiff = rootYoB - sortedNormalData[1].x[0];
+    let youngAgeDiffMax = 90 - youngPeopleAgeDiff;
+    let youngAgeDiffMin = 10;
+    let youngRate = (youngAgeDiffMax - youngAgeDiffMin) / lastYoungerPerson;
+
+    let olderPeopleAgeDiff = sortedNormalData[numLives - 1].x[0] - rootYoB;
+    let olderAgeDiffMax = 90;
+    let olderAgeMin = 10 + olderPeopleAgeDiff;
+    let olderRate = (olderAgeDiffMax - olderAgeMin) / (numLives - lastYoungerPerson);
+    
+    //Label the Younger People
+    for (let i = 1; i <= lastYoungerPerson; i++) {
+        let aYoBOfCurrentPerson = sortedNormalData[i].x[0];
+        sortedNormalData[i].x[1] = aYoBOfCurrentPerson + youngAgeDiffMin + ((i - 1) * youngRate);
+        sortedNormalData[i].y[1] = youngAgeDiffMin + ((i - 1) * youngRate);
     }
 
+    //Label the Older People
+    for (let i = numLives - 1; i >= firstOlderPerson; i--) {
+        let aYoBOfCurrentPerson = sortedNormalData[i].x[0];
+        sortedNormalData[i].x[1] = aYoBOfCurrentPerson + olderAgeDiffMax - ((numLives - i - 1) * olderRate);
+        sortedNormalData[i].y[1] = olderAgeDiffMax - ((numLives - i - 1) * olderRate);
+    }
+
+    
+}
+
+    function retrieveEventsDataFromStorage() {
     // This loop creates the data array for both nomral and inverted graph events.
     for(let i = 0; i < numEvents; i++) {
         let age = Number(localStorage.getItem(`${i}eventAge`));
@@ -74,7 +139,7 @@ function retrieveDataFromStorage() {
             },
             name: localStorage.getItem(`${i}eventName`)
         };
-        normalData.push(added);
+        sortedNormalData.push(added);
 
         // Inverted Data
         var added = {
@@ -88,7 +153,7 @@ function retrieveDataFromStorage() {
             },
             name: localStorage.getItem(`${i}eventName`)
         };
-        invertedData.push(added);
+        sortedInvertedData.push(added);
     }
 }
 
@@ -103,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tick0: rootYoB,
             dtick: 10,
             ticklen: 0,
-            tickcolor: '#000'
+            tickcolor: '#000',
+            textposition: "top"
 
         },
         yaxis: {
@@ -115,10 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ticklen: 0,
             tickcolor: '#000'
         },
-        //legend: {
-        //    x: -5,
-        //    y: .27
-        //}
     };
 
     var invertedLayout = {
@@ -168,22 +230,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //Creates the two different arrays for graphing the map.
-    normalData.push(normalRoot);
-    invertedData.push(invertedRoot);
-    retrieveDataFromStorage();
+    sortedNormalData.push(normalRoot);
+    sortedInvertedData.push(invertedRoot);
+    retrieveLivesDataFromStorage();
+    sortData();
+    placeLabelsOnLives();
+    retrieveEventsDataFromStorage();
+    console.log(sortedNormalData);
   
     const chartGraph = document.getElementById('lifeMapGraph');
-    Plotly.newPlot(lifeGraph, normalData, normalLayout);
+    Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
 
 
     //Button handler that inverts the data given.
     invButton.addEventListener('click', function() {
         if (isInverted) {
-            Plotly.newPlot(lifeGraph, normalData, normalLayout);
+            Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
             isInverted = false;
             headLine.innerHTML = "Life Time Map";
         } else {
-            Plotly.newPlot(lifeGraph, invertedData, invertedLayout);
+            Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
             isInverted = true;
             headLine.innerHTML = "Inverted Life Time Map";
         }
