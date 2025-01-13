@@ -1,8 +1,9 @@
 import Plotly from 'plotly.js-dist';
 
-//Display Elements for index1
+//Display Elements for index
 const lifeGraph = document.getElementById("lifeMapGraph");
 const headLine = document.getElementById("graphHeadline");
+const jsVerifyBtn = document.getElementById("verify1");
 
 //Retrieving Root data for graph
 let rootName = localStorage.getItem("rootName");
@@ -24,6 +25,18 @@ var unsortedInvertedData = [];
 var sortedInvertedData = [];
 
 
+function resetData() {
+    rootName = localStorage.getItem("rootName");
+    rootYoB = Number(localStorage.getItem("rootYoB"));
+    numAddPpl = Number(localStorage.getItem("numPeople"));
+    numEvents = Number(localStorage.getItem("numLifeEvents"));
+
+    unsortedNormalData = [];
+    sortedNormalData = [];
+    unsortedInvertedData = [];
+    sortedInvertedData = [];
+    localStorage.clear;
+}
 function retrieveLivesDataFromStorage() {
     // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
@@ -92,7 +105,6 @@ function placeLabelsOnLives() {
         firstOlderPerson++;
     }
     let lastYoungerPerson = firstOlderPerson - 1;
-    console.log(firstOlderPerson);
 
     //Find scale to space people
     let youngPeopleAgeDiff = rootYoB - sortedNormalData[1].x[0];
@@ -169,7 +181,9 @@ function placeLabelsOnLives() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+jsVerifyBtn.addEventListener('click', function() {
+
+    resetData();
 
     //The two different graph layouts for 
     var normalLayout = {

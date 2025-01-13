@@ -1,4 +1,5 @@
-//Script for most 
+//Script for most backend work
+
 
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
@@ -152,17 +153,17 @@ if (window.location.pathname.endsWith('/')) {
 		}
 
 
-		//If we are allowed to continue, the submit button will allow us to generate the map
-		if (!cannotContinue) {
-			jYrError.innerHTML = "These are valid year entries!";
-			sub.type = 'button';
-		}
-		else{
-			jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
-			localStorage.clear;
-			sub.type = 'submit';
-		}
-		console.log(sub.type);  // Right now, we are getting that the type of input is not a button, but submit (which is wrong)
+		// //If we are allowed to continue, the submit button will allow us to generate the map
+		// if (!cannotContinue) {
+		// 	jYrError.innerHTML = "These are valid year entries!";
+		// 	sub.type = 'button';
+		// }
+		// else{
+		// 	jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
+		// 	localStorage.clear;
+		// 	sub.type = 'submit';
+		// }
+		// console.log(sub.type);  // Right now, we are getting that the type of input is not a button, but submit (which is wrong)
 	});
 
 	//This event listner updates when the drop down menue has been updated
@@ -181,9 +182,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	//Checking which html file we are on
 	if (window.location.pathname.endsWith('/')){
-		sub.addEventListener('click', function () {
-			navigate('index1.html');
-		});
+		// sub.addEventListener('click', function () {
+		// 	navigate('index1.html');
+		// });
 
 		var DELIMITER = ',';
 		var NEWLINE = '\n';
