@@ -1,6 +1,9 @@
 //Script for most backend work
-
-
+//try {
+	//import {resetData} from './linegraph.js';
+//}catch(error) {
+//	console.error(error);
+//}
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
 const ageRegEx = /^\d{1,2}$/;	// RegEx to validate event age
@@ -12,7 +15,6 @@ const eventDict = new Map;		// Map for containing life event information
 
 //Buttons from HTML file
 const jsVerifyBtn = document.getElementById('verify1');
-//const btn2 = document.getElementById('verify2');
 
 //Submit
 const sub = document.getElementById('submit');
@@ -105,6 +107,7 @@ if (window.location.pathname.endsWith('/')) {
 
 	jsVerifyBtn.addEventListener('click', function() {
 		cannotContinue = false;
+		//resetData();
 		if (yearValidation(jRootYoB.value)) {
 			localStorage.setItem("rootName", jRootName.value);
 			localStorage.setItem("rootYoB", jRootYoB.value);
@@ -151,19 +154,6 @@ if (window.location.pathname.endsWith('/')) {
 			//This console log tells us if our event years are valid
 			console.log(`Event year #${i} is: ${cannotContinue}`);
 		}
-
-
-		// //If we are allowed to continue, the submit button will allow us to generate the map
-		// if (!cannotContinue) {
-		// 	jYrError.innerHTML = "These are valid year entries!";
-		// 	sub.type = 'button';
-		// }
-		// else{
-		// 	jYrError.innerHTML = "This is not a valid birth year, please try again and input a valid year of the form ####";
-		// 	localStorage.clear;
-		// 	sub.type = 'submit';
-		// }
-		// console.log(sub.type);  // Right now, we are getting that the type of input is not a button, but submit (which is wrong)
 	});
 
 	//This event listner updates when the drop down menue has been updated
@@ -180,114 +170,87 @@ if (window.location.pathname.endsWith('/')) {
 //Event listener to navigate from each page
 document.addEventListener('DOMContentLoaded', function() {
 
-	//Checking which html file we are on
-	if (window.location.pathname.endsWith('/')){
-		// sub.addEventListener('click', function () {
-		// 	navigate('index1.html');
-		// });
+	var DELIMITER = ',';
+	var NEWLINE = '\n';
+	var inputFile = document.getElementById('fileInput');
+	var table = document.getElementById('table');
 
-		var DELIMITER = ',';
-		var NEWLINE = '\n';
-		var inputFile = document.getElementById('fileInput');
-		var table = document.getElementById('table');
+	if (!inputFile) {
+		console.log("input file is null");
+		return;
+	}
 
-		if (!inputFile) {
-			console.log("input file is null");
+	inputFile.addEventListener('change', function() {
+		if (!!fileInput.files && fileInput.files.length > 0) {
+			parseCSV(fileInput.files[0]);
+		}
+	});
+
+		function parseCSV(file) {
+		if (!file || !FileReader){
+			console.log("file or FileReader not found");
 			return;
 		}
 
-		inputFile.addEventListener('change', function() {
-			if (!!fileInput.files && fileInput.files.length > 0) {
-				parseCSV(fileInput.files[0]);
-			}
-		});
+		var reader = new FileReader();
 
-		function parseCSV(file) {
-			if (!file || !FileReader){
-				console.log("file or FileReader not found");
-				return;
-			}
-
-			var reader = new FileReader();
-
-			reader.onload = function(e) {
-				toTable(e.target.result);
-			};
+		reader.onload = function(e) {
+			toTable(e.target.result);
+		};
 
 			reader.readAsText(file);
+	}
+
+	function toTable(text) {
+		if (!text || !table) {
+			console.log("Either text or table is not defined.");
+			return;
 		}
 
-		function toTable(text) {
-			if (!text || !table) {
-				console.log("Either text or table is not defined.");
-				return;
-			}
-
-			while(!!table.lastElementChild) {
-				table.removeChild(table.lastElementChild);
-			}
+		while(!!table.lastElementChild) {
+			table.removeChild(table.lastElementChild);
+		}
 			
-			var rows = text.split(NEWLINE);
-			var headers = rows.shift().trim().split(DELIMITER);
-			var htr = document.createElement('tr');
-
-
-			let numbers = rows[0].split(DELIMITER);
+		var rows = text.split(NEWLINE);
+		var headers = rows.shift().trim().split(DELIMITER);
+		var htr = document.createElement('tr');
+		let numbers = rows[0].split(DELIMITER);
+		
+		//This block of code gives us the number of add people and life events
+		let nAddPpl = Number(numbers[0]);
+		let nEvents = Number(numbers[1]);
+		
+		// If both numbers are valid, push them to the right boxes
+		if(numValidation(nAddPpl) && numValidation(nEvents)) {
+			numAddPpl.value = nAddPpl;
+			generateInputsToAddPeople(numAddPpl.value);
+			jNumLifeEvents.value = nEvents;
+			generateInputsToAddEvents(jNumLifeEvents.value);
 			
-			//This block of code gives us the number of add people and life events
-			let nAddPpl = Number(numbers[0]);
-			let nEvents = Number(numbers[1]);
-			
-			// If both numbers are valid, push them to the right boxes
-			if(numValidation(nAddPpl) && numValidation(nEvents)) {
-				numAddPpl.value = nAddPpl;
-				generateInputsToAddPeople(numAddPpl.value);
-				jNumLifeEvents.value = nEvents;
-				generateInputsToAddEvents(jNumLifeEvents.value);
+			//Inputs data values into the generated boxes above
+			for (let i = 2; i < 2 + nAddPpl; i++) { // Additional People
+				let data = rows[i].split(DELIMITER);
 				
-				//Inputs data values into the generated boxes above
-				for (let i = 2; i < 2 + nAddPpl; i++) { // Additional People
-					let data = rows[i].split(DELIMITER);
-					
-					document.getElementById(`${i - 2}Name`).value = data[0]; //Sets Name
-					document.getElementById(`${i - 2}Age`).value = Number(data[1]); //Sets Year of Birth
-				}
-
-				for (let i = 2 + nAddPpl; i < 2 + nAddPpl + nEvents; i++) { // Life Events
-					let data = rows[i].split(DELIMITER);
-
-					document.getElementById(`${i - 2 - nAddPpl}Event`).value = data[0];
-					document.getElementById(`${i - 2 - nAddPpl}YoE`).value = Number(data[1]);
-				}
+				document.getElementById(`${i - 2}Name`).value = data[0]; //Sets Name
+				document.getElementById(`${i - 2}Age`).value = Number(data[1]); //Sets Year of Birth
 			}
-			
-			//This block of code retrieves the root name and Year of Birth
-			let root = rows[1].split(DELIMITER);
-			let rName = root[0];
-			let rYoB = Number(root[1]);
-			
-			if (yearValidation(rYoB)){
-				jRootName.value = rName;
-				jRootYoB.value = rYoB;
-
+			for (let i = 2 + nAddPpl; i < 2 + nAddPpl + nEvents; i++) { // Life Events
+				let data = rows[i].split(DELIMITER);
+				document.getElementById(`${i - 2 - nAddPpl}Event`).value = data[0];
+				document.getElementById(`${i - 2 - nAddPpl}YoE`).value = Number(data[1]);
 			}
 		}
+		
+		//This block of code retrieves the root name and Year of Birth
+		let root = rows[1].split(DELIMITER);
+		let rName = root[0];
+		let rYoB = Number(root[1]);
+		
+		if (yearValidation(rYoB)){
+			jRootName.value = rName;
+			jRootYoB.value = rYoB;
+		}
 	}
-	else if (window.location.pathname.endsWith('index1.html')){
-		console.log('We are in index1.hmtl');
-		const returnButton = document.getElementById('returnHome');
-		returnButton.addEventListener('click', function() {
-			navigate('/');
-		});
-	}
-	else {
-		console.log('we are in neither index.html or in index1.html');
-		console.log(window.location.pathname);
-	}
-
-	function navigate(target) {
-		window.location.href = `${target}`;
-		console.log('Navigation function is called');
-	}
+	
 
 });

@@ -1,5 +1,7 @@
 import Plotly from 'plotly.js-dist';
 
+
+
 //Display Elements for index
 const lifeGraph = document.getElementById("lifeMapGraph");
 const headLine = document.getElementById("graphHeadline");
@@ -25,6 +27,7 @@ var unsortedInvertedData = [];
 var sortedInvertedData = [];
 
 
+//export function resetData() {
 function resetData() {
     rootName = localStorage.getItem("rootName");
     rootYoB = Number(localStorage.getItem("rootYoB"));
@@ -36,6 +39,18 @@ function resetData() {
     unsortedInvertedData = [];
     sortedInvertedData = [];
     localStorage.clear;
+    for (let i = 0; i < numAddPpl; i++) {
+		let currentName = document.getElementById(`${i}Name`);
+        let currentYoB = document.getElementById(`${i}Age`);
+        currentName.innerHTML = "";
+        currentYoB.innerHTML = "";
+	}
+    for (let i = 0; i < numEvents; i++) {
+        let currentEvent = document.getElementById(`${i}Event`);
+        let currentYoE = document.getElementById(`${i}YoE`);
+        currentEvent.innerHTML = "";
+        currentEvent.innerHTML = "";
+    }
 }
 function retrieveLivesDataFromStorage() {
     // This loop creates the data array for both normal and inverted graph lives.
@@ -100,8 +115,9 @@ function placeLabelsOnLives() {
     let numLives = sortedNormalData.length;
 
     //Find index of youngest person older than root
+    console.log(sortedNormalData);
     let firstOlderPerson = 1;
-    while (sortedNormalData[0].x[0] < sortedNormalData[firstOlderPerson].x[0]) {
+    while (firstOlderPerson < sortedNormalData.length && sortedNormalData[0].x[0] < sortedNormalData[firstOlderPerson].x[0]) {
         firstOlderPerson++;
     }
     let lastYoungerPerson = firstOlderPerson - 1;
@@ -261,30 +277,31 @@ jsVerifyBtn.addEventListener('click', function() {
     //Creates the two different arrays for graphing the map.
     sortedNormalData.push(normalRoot);
     sortedInvertedData.push(invertedRoot);
-    retrieveLivesDataFromStorage();
-    sortData();
-    placeLabelsOnLives();
+    if (numAddPpl > 0) {
+        retrieveLivesDataFromStorage();
+        sortData();
+        placeLabelsOnLives();
+    }
     retrieveEventsDataFromStorage();
     console.log(sortedNormalData);
   
     const chartGraph = document.getElementById('lifeMapGraph');
     Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-
-
-    //Button handler that inverts the data given.
-    invButton.addEventListener('click', function() {
-        if (isInverted) {
-            Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-            isInverted = false;
-        } else {
-            Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
-            isInverted = true;
-        }
-    });
+    
 
     if (chartGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');
     } else {
         console.log('lifeMapGraph is NOT found in the HTML.');
+    }
+});
+//Button handler that inverts the data given.
+invButton.addEventListener('click', function() {
+    if (isInverted) {
+        Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
+        isInverted = false;
+    } else {
+        Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
+        isInverted = true;
     }
 });
