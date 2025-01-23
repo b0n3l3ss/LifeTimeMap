@@ -1,17 +1,15 @@
 import Plotly from 'plotly.js-dist';
 
-
-
 //Display Elements for index
 const lifeGraph = document.getElementById("lifeMapGraph");
 const headLine = document.getElementById("graphHeadline");
 const jsVerifyBtn = document.getElementById("verify1");
 
 //Retrieving Root data for graph
-let rootName = localStorage.getItem("rootName");
-let rootYoB = Number(localStorage.getItem("rootYoB"));
-let numAddPpl = Number(localStorage.getItem("numPeople"));
-let numEvents = Number(localStorage.getItem("numLifeEvents"));
+let rootName = document.getElementById('rName').innerHTML;
+let rootYoB = Number(document.getElementById('rAge').innerHTML);
+let numAddPpl = Number(document.getElementById('sNumPeople'));
+let numEvents = Number(document.getElementById('numLifeEvents'));
 
 
 //Button
@@ -25,14 +23,12 @@ var unsortedNormalData = [];
 var sortedNormalData = [];
 var unsortedInvertedData = [];
 var sortedInvertedData = [];
+var normalLayout;
+var invertedLayout;
 
 
 //export function resetData() {
 function resetData() {
-    rootName = localStorage.getItem("rootName");
-    rootYoB = Number(localStorage.getItem("rootYoB"));
-    numAddPpl = Number(localStorage.getItem("numPeople"));
-    numEvents = Number(localStorage.getItem("numLifeEvents"));
 
     unsortedNormalData = [];
     sortedNormalData = [];
@@ -49,13 +45,15 @@ function resetData() {
         let currentEvent = document.getElementById(`${i}Event`);
         let currentYoE = document.getElementById(`${i}YoE`);
         currentEvent.innerHTML = "";
-        currentEvent.innerHTML = "";
+        currentYoE.innerHTML = "";
     }
 }
 function retrieveLivesDataFromStorage() {
+
+    console.log("Retrival function for additional lives is being run");
     // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
-        let age = Number(localStorage.getItem(`${i}Age`));
+        let age = Number(document.getElementById(`${i}Age`));
 
         // Normal Data
         var added = {
@@ -63,9 +61,9 @@ function retrieveLivesDataFromStorage() {
             y: [0,50, 100],
             type: 'scatter',
             mode: "lines+text",
-            text:["", localStorage.getItem(`${i}Name`), ""],
+            text:["", document.getElementById(`${i}Name`), ""],
             textposition: 'top left',
-            name: localStorage.getItem(`${i}Name`),
+            name: document.getElementById(`${i}Name`),
             line: {
                 width: 4
             }
@@ -78,9 +76,9 @@ function retrieveLivesDataFromStorage() {
             x: [0,50,100],
             type: 'scatter',
             mode: "lines+text",
-            text:["", localStorage.getItem(`${i}Name`), ""],
+            text:["", document.getElementById(`${i}Name`), ""],
             textposition: 'top left',
-            name: localStorage.getItem(`${i}Name`),
+            name: document.getElementById(`${i}Name`),
             line: {
                 width: 4
             }
@@ -161,7 +159,7 @@ function placeLabelsOnLives() {
     function retrieveEventsDataFromStorage() {
     // This loop creates the data array for both nomral and inverted graph events.
     for(let i = 0; i < numEvents; i++) {
-        let age = Number(localStorage.getItem(`${i}eventAge`));
+        let age = Number(document.getElementById(`${i}YoE`));
         
         // Normal Data
         var added = {
@@ -169,13 +167,13 @@ function placeLabelsOnLives() {
             y: [age, age, age],
             type: 'scatter',
             mode: 'lines+text',
-            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            text:[document.getElementById(`${i}Event`), document.getElementById(`${i}Event`)],
             textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
             },
-            name: localStorage.getItem(`${i}eventName`)
+            name: document.getElementById(`${i}Event`)
         };
         sortedNormalData.push(added);
 
@@ -185,24 +183,26 @@ function placeLabelsOnLives() {
             x: [age, age, age],
             type: 'scatter',
             mode: 'lines+text',
-            text:[localStorage.getItem(`${i}eventName`), localStorage.getItem(`${i}eventName`)],
+            text:[document.getElementById(`${i}Event`), document.getElementById(`${i}Event`)],
             textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
             },
-            name: localStorage.getItem(`${i}eventName`)
+            name: document.getElementById(`${i}Event`)
         };
         sortedInvertedData.push(added);
     }
 }
 
 jsVerifyBtn.addEventListener('click', function() {
-
     resetData();
 
+    console.log(rootYoB);
+    console.log(rootName);
+
     //The two different graph layouts for 
-    var normalLayout = {
+    normalLayout = {
         xaxis: {
             title: "Year",
             range: [rootYoB, rootYoB + 100],
@@ -225,7 +225,7 @@ jsVerifyBtn.addEventListener('click', function() {
         },
     };
 
-    var invertedLayout = {
+    invertedLayout = {
         yaxis: {
             title: "Year",
             range: [rootYoB, rootYoB + 100],
@@ -255,7 +255,7 @@ jsVerifyBtn.addEventListener('click', function() {
         mode: 'lines+text',
         text: ["", rootName, ""],
         textposition: 'top left',
-        name: localStorage.getItem('rootName'),
+        name: rootName,
         line: {
             width: 4
         }
@@ -268,7 +268,7 @@ jsVerifyBtn.addEventListener('click', function() {
         mode: 'lines+text',
         text: ["", rootName, ""],
         textposition: 'top left',
-        name: localStorage.getItem('rootName'),
+        name: rootName,
         line: {
             width: 4
         }
@@ -287,7 +287,20 @@ jsVerifyBtn.addEventListener('click', function() {
   
     const chartGraph = document.getElementById('lifeMapGraph');
     Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-    
+
+
+    //Button handler that inverts the data given.
+    isInverted = false;
+    console.log(isInverted);
+    invButton.addEventListener('click', function() {
+        if (isInverted) {
+            Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
+            isInverted = false;
+        } else {
+            Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
+            isInverted = true;
+        }
+    });
 
     if (chartGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');
@@ -295,13 +308,4 @@ jsVerifyBtn.addEventListener('click', function() {
         console.log('lifeMapGraph is NOT found in the HTML.');
     }
 });
-//Button handler that inverts the data given.
-invButton.addEventListener('click', function() {
-    if (isInverted) {
-        Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-        isInverted = false;
-    } else {
-        Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
-        isInverted = true;
-    }
-});
+

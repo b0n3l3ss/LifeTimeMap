@@ -10,14 +10,11 @@ const ageRegEx = /^\d{1,2}$/;	// RegEx to validate event age
 const numRegEx = /^\d{1}$/;		// RegEx to validate num of events and add people
 let cannotContinue = false;		// Flag to not let script continue if invalid 
 								// information is inputed
-const newPeopleDict = new Map;	// Map containing the infomration of additional ppl
-const eventDict = new Map;		// Map for containing life event information
+								// May not be needed
+
 
 //Buttons from HTML file
-const jsVerifyBtn = document.getElementById('verify1');
-
-//Submit
-const sub = document.getElementById('submit');
+const jsVerifyBtn = document.getElementById('verify1');  // The button that verifies and 
 
 //root name and age
 const jRootName = document.getElementById('rName');
@@ -25,8 +22,8 @@ const jRootYoB = document.getElementById('rAge');
 
 //Entry box generation elements
 const jYrError = document.getElementById('yrError');
-const addPpl = document.getElementById('addPplInputs');
-const numAddPpl = document.getElementById('sNumPeople');
+const addPpl = document.getElementById('addPplInputs');		// Area to add new data entry boxes
+const numAddPpl = document.getElementById('sNumPeople');	// The number of added people
 
 const jAddEvents = document.getElementById('addEvents');
 const jNumLifeEvents = document.getElementById('numLifeEvents');
@@ -102,70 +99,17 @@ function generateInputsToAddEvents(numIterations) {
 }
 
 
-//Event listners to run javascript functions for index.html
-if (window.location.pathname.endsWith('/')) {
+//This event listner updates when the drop down menue has been updated
+numAddPpl.addEventListener('change', function() {
+	generateInputsToAddPeople(numAddPpl.value);
+});
 
-	jsVerifyBtn.addEventListener('click', function() {
-		cannotContinue = false;
-		//resetData();
-		if (yearValidation(jRootYoB.value)) {
-			localStorage.setItem("rootName", jRootName.value);
-			localStorage.setItem("rootYoB", jRootYoB.value);
-		}
 
-		//Check to see if validation is running correctly
-		console.log(`The root birth year is valid if 0, otherwise is 1: ${cannotContinue}`);
+//This event listner updates when the drop down menue has been updated
+jNumLifeEvents.addEventListener('change', function() {
+	generateInputsToAddEvents(jNumLifeEvents.value);
+});
 
-		//Store number of people into local storage
-		localStorage.setItem("numPeople", numAddPpl.value);
-
-		//Verify and add additional people information into local storage
-		for(let i = 0; i < numAddPpl.value; i++) {
-			let eventName = document.getElementById(`${i}Name`);
-			let eventAge = document.getElementById(`${i}Age`);
-
-			//If the year is valid, then store data in local storage
-			if (yearValidation(eventAge.value)) {
-				localStorage.setItem(`${i}Name`, eventName.value);
-				localStorage.setItem(`${i}Age`, eventAge.value);
-
-			}
-			newPeopleDict.set(i, [eventName.value, eventAge.value]);
-
-			//This console log tells us if our additional birth years are valid
-			console.log(`Birth year of person #${i} is: ${cannotContinue}`);
-		}
-
-		//Store number of life events in local storage
-		localStorage.setItem("numLifeEvents", jNumLifeEvents.value);
-
-		//Verify and store life event data into local storage
-		for(let i = 0; i < jNumLifeEvents.value; i++) {
-			let eventName = document.getElementById(`${i}Event`);
-			let eventAge = document.getElementById(`${i}YoE`);
-		
-			//If the year is valid, then store data in local storage
-			if (ageValidation(eventAge)) {
-				localStorage.setItem(`${i}eventName`, eventName.value);
-				localStorage.setItem(`${i}eventAge`, eventAge.value);
-			}
-			eventDict.set(i, [eventName.value, eventAge.value]);
-
-			//This console log tells us if our event years are valid
-			console.log(`Event year #${i} is: ${cannotContinue}`);
-		}
-	});
-
-	//This event listner updates when the drop down menue has been updated
-	numAddPpl.addEventListener('change', function() {
-		generateInputsToAddPeople(numAddPpl.value);
-	});
-
-	//This event listner updates when the drop down menue has been updated
-	jNumLifeEvents.addEventListener('change', function() {
-		generateInputsToAddEvents(jNumLifeEvents.value);
-	});
-}
 
 //Event listener to navigate from each page
 document.addEventListener('DOMContentLoaded', function() {
@@ -246,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		let rName = root[0];
 		let rYoB = Number(root[1]);
 		
+		console.log("Checking validation of root name and age");
 		if (yearValidation(rYoB)){
 			jRootName.value = rName;
 			jRootYoB.value = rYoB;
