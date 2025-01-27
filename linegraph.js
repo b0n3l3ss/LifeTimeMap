@@ -8,10 +8,15 @@ const jsVerifyBtn = document.getElementById("verify1");
 //Retrieving Root data for graph
 let rootName = document.getElementById('rName').innerHTML;
 let rootYoB = Number(document.getElementById('rAge').innerHTML);
-let numAddPpl = Number(document.getElementById('sNumPeople'));
-let numEvents = Number(document.getElementById('numLifeEvents'));
+let numAddPpl = Number(document.getElementById('sNumPeople').innerHTML);
+let numEvents = Number(document.getElementById('numLifeEvents').innerHTML);
 
-
+function updateEssentialData() {
+    rootName = document.getElementById('rName').value;
+    rootYoB = Number(document.getElementById('rAge').value);
+    numAddPpl = Number(document.getElementById('sNumPeople').value);
+    numEvents = Number(document.getElementById('numLifeEvents').value);
+}
 //Button
 let invButton = document.getElementById("invertButton");
 
@@ -29,12 +34,14 @@ var invertedLayout;
 
 //export function resetData() {
 function resetData() {
+    updateEssentialData();
 
     unsortedNormalData = [];
     sortedNormalData = [];
     unsortedInvertedData = [];
     sortedInvertedData = [];
-    localStorage.clear;
+    console.log(numAddPpl);
+    
     for (let i = 0; i < numAddPpl; i++) {
 		let currentName = document.getElementById(`${i}Name`);
         let currentYoB = document.getElementById(`${i}Age`);
@@ -53,7 +60,7 @@ function retrieveLivesDataFromStorage() {
     console.log("Retrival function for additional lives is being run");
     // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
-        let age = Number(document.getElementById(`${i}Age`));
+        let age = Number(document.getElementById(`${i}Age`).value);
 
         // Normal Data
         var added = {
@@ -61,9 +68,9 @@ function retrieveLivesDataFromStorage() {
             y: [0,50, 100],
             type: 'scatter',
             mode: "lines+text",
-            text:["", document.getElementById(`${i}Name`), ""],
+            text:["", document.getElementById(`${i}Name`).value, ""],
             textposition: 'top left',
-            name: document.getElementById(`${i}Name`),
+            name: document.getElementById(`${i}Name`).value,
             line: {
                 width: 4
             }
@@ -76,9 +83,9 @@ function retrieveLivesDataFromStorage() {
             x: [0,50,100],
             type: 'scatter',
             mode: "lines+text",
-            text:["", document.getElementById(`${i}Name`), ""],
+            text:["", document.getElementById(`${i}Name`).value, ""],
             textposition: 'top left',
-            name: document.getElementById(`${i}Name`),
+            name: document.getElementById(`${i}Name`).value,
             line: {
                 width: 4
             }
@@ -159,7 +166,7 @@ function placeLabelsOnLives() {
     function retrieveEventsDataFromStorage() {
     // This loop creates the data array for both nomral and inverted graph events.
     for(let i = 0; i < numEvents; i++) {
-        let age = Number(document.getElementById(`${i}YoE`));
+        let age = Number(document.getElementById(`${i}YoE`).value);
         
         // Normal Data
         var added = {
@@ -167,13 +174,13 @@ function placeLabelsOnLives() {
             y: [age, age, age],
             type: 'scatter',
             mode: 'lines+text',
-            text:[document.getElementById(`${i}Event`), document.getElementById(`${i}Event`)],
+            text:[document.getElementById(`${i}Event`).value, document.getElementById(`${i}Event`).value],
             textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
             },
-            name: document.getElementById(`${i}Event`)
+            name: document.getElementById(`${i}Event`).value
         };
         sortedNormalData.push(added);
 
@@ -183,13 +190,13 @@ function placeLabelsOnLives() {
             x: [age, age, age],
             type: 'scatter',
             mode: 'lines+text',
-            text:[document.getElementById(`${i}Event`), document.getElementById(`${i}Event`)],
+            text:[document.getElementById(`${i}Event`).value, document.getElementById(`${i}Event`).value],
             textposition: 'top left',
             line: {
                 dash: 'dot',
                 width: 4
             },
-            name: document.getElementById(`${i}Event`)
+            name: document.getElementById(`${i}Event`).innerHTML
         };
         sortedInvertedData.push(added);
     }
@@ -197,6 +204,7 @@ function placeLabelsOnLives() {
 
 jsVerifyBtn.addEventListener('click', function() {
     resetData();
+    updateEssentialData();
 
     console.log(rootYoB);
     console.log(rootName);
