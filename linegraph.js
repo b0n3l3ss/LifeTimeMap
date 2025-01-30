@@ -231,6 +231,10 @@ jsVerifyBtn.addEventListener('click', function() {
             ticklen: 0,
             tickcolor: '#000'
         },
+        legend: {
+            x: 0,
+            y: 0.5
+        }
     };
 
     invertedLayout = {
@@ -252,6 +256,10 @@ jsVerifyBtn.addEventListener('click', function() {
             dtick: 10,
             ticklen: 0,
             tickcolor: '#000'
+        },
+        legend: {
+            x: 0,
+            y: 0.5
         }
     };
     
