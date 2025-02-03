@@ -299,29 +299,31 @@ jsVerifyBtn.addEventListener('click', function() {
         placeLabelsOnLives();
     }
     retrieveEventsDataFromStorage();
-    console.log(sortedNormalData);
-  
-    const chartGraph = document.getElementById('lifeMapGraph');
+    
     Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-
 
     //Button handler that inverts the data given.
     isInverted = false;
     console.log(isInverted);
-    invButton.addEventListener('click', function() {
-        if (isInverted) {
-            Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
-            isInverted = false;
-        } else {
-            Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
-            isInverted = true;
-        }
-    });
 
-    if (chartGraph) {
+    if (lifeGraph) {
         console.log('lifeMapGraph is defined and found in the HTML.');
     } else {
         console.log('lifeMapGraph is NOT found in the HTML.');
     }
 });
 
+invButton.addEventListener('click', function() {
+    console.log("inverted button listened");
+    if (isInverted) {
+        Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
+        //lifeGraph.innerHTML = normalPlot;
+        isInverted = false;
+        console.log("It is not inverted");
+    } else {
+        Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
+        //lifeGraph.value = invertedPlot;
+        isInverted = true;
+        console.log("It is inverted");
+    }
+});
