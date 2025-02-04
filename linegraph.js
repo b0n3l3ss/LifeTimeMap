@@ -40,7 +40,6 @@ function resetData() {
     sortedNormalData = [];
     unsortedInvertedData = [];
     sortedInvertedData = [];
-    console.log(numAddPpl);
     
     for (let i = 0; i < numAddPpl; i++) {
 		let currentName = document.getElementById(`${i}Name`);
@@ -57,7 +56,6 @@ function resetData() {
 }
 function retrieveLivesDataFromStorage() {
 
-    console.log("Retrival function for additional lives is being run");
     // This loop creates the data array for both normal and inverted graph lives.
     for(let i = 0; i < numAddPpl; i++) {
         let age = Number(document.getElementById(`${i}Age`).value);
@@ -120,7 +118,6 @@ function placeLabelsOnLives() {
     let numLives = sortedNormalData.length;
 
     //Find index of youngest person older than root
-    console.log(sortedNormalData);
     let firstOlderPerson = 1;
     while (firstOlderPerson < sortedNormalData.length && sortedNormalData[0].x[0] < sortedNormalData[firstOlderPerson].x[0]) {
         firstOlderPerson++;
@@ -205,9 +202,6 @@ function placeLabelsOnLives() {
 jsVerifyBtn.addEventListener('click', function() {
     resetData();
     updateEssentialData();
-
-    console.log(rootYoB);
-    console.log(rootName);
 
     //The two different graph layouts for 
     normalLayout = {
@@ -304,26 +298,16 @@ jsVerifyBtn.addEventListener('click', function() {
 
     //Button handler that inverts the data given.
     isInverted = false;
-    console.log(isInverted);
-
-    if (lifeGraph) {
-        console.log('lifeMapGraph is defined and found in the HTML.');
-    } else {
-        console.log('lifeMapGraph is NOT found in the HTML.');
-    }
 });
 
 invButton.addEventListener('click', function() {
-    console.log("inverted button listened");
     if (isInverted) {
         Plotly.newPlot(lifeGraph, sortedNormalData, normalLayout);
         //lifeGraph.innerHTML = normalPlot;
         isInverted = false;
-        console.log("It is not inverted");
     } else {
         Plotly.newPlot(lifeGraph, sortedInvertedData, invertedLayout);
         //lifeGraph.value = invertedPlot;
         isInverted = true;
-        console.log("It is inverted");
     }
 });

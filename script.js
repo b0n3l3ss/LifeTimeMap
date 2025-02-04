@@ -1,9 +1,4 @@
 //Script for most backend work
-//try {
-	//import {resetData} from './linegraph.js';
-//}catch(error) {
-//	console.error(error);
-//}
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
 const ageRegEx = /^\d{1,2}$/;	// RegEx to validate event age
@@ -190,12 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		let rName = root[0];
 		let rYoB = Number(root[1]);
 		
-		console.log("Checking validation of root name and age");
 		if (yearValidation(rYoB)){
 			jRootName.value = rName;
 			jRootYoB.value = rYoB;
 		}
 	}
-	
-
 });
