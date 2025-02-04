@@ -227,7 +227,7 @@ jsVerifyBtn.addEventListener('click', function() {
         },
         legend: {
             x: 0,
-            y: 0.5
+            y: 1
         }
     };
 
@@ -253,7 +253,7 @@ jsVerifyBtn.addEventListener('click', function() {
         },
         legend: {
             x: 0,
-            y: 0.5
+            y: 1
         }
     };
     
