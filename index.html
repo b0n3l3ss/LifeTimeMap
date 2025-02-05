@@ -11,15 +11,10 @@
     <script type="module" src="exportCSV.js"></script>
 </head>
 <body>
-    <h1>Life Time Map: Home Page</h1>
-    <p>This is a webpage to allow users to map out what their life looks like along side important people and important life events.  This map is an age versus year graph where <br> 
-        your life is depicted as a line.  Other important people in your life are depicted as solid lines as well, while important life events are depicted as dotted lines.  <br>
-        Instructions: You should enter your name and year of birth in the first two boxes for a basic map.  To add important people and life events, indicate how many of each <br>
-        by using the drop down menues.  This will generate text boxes for you to enter information about important people and important life events.  For the important people, <br>
-        indicate their name and what year they were born.  For the important life events, indicate what that life event is and at what age you have or intend to go through this event.
+    <h1>Life Time Map</h1>
+    <p><b>Instructions: </b> Enter your name and your year of birth below.  Then add important people and life events.
     </p>  
-    <br>
-    <p>Either imput data manualy or use imput csv file below to read data.</p>
+    
     <div>
         <input type="file" id="fileInput" accept=".csv" /> 
         <button id="downloadCSV">Download csv</button> <br> <br>
@@ -58,9 +53,9 @@
             <option value="10">10</option>
         </select> <br>
         <p id="addEvents"></p>
-        <input type="button" id="verify1" value="Verify Additional People and Life Events and Graph"></input>
+        <input type="button" id="verify1" value="Create Your Life Map"></input>
         
-        <p id="yrError"></p>
+        <p id="yrError"><b>How to Print: </b>Hover over the mpa to activate a toolbar.  Click the camera button to download a printable PNG file.</p>
         <table id="table"></table>
     </div>
     <div style="width: 900px; height: 800px;" id="lifeMapGraph"></div>

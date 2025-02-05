@@ -88,7 +88,7 @@ function generateInputsToAddEvents(numIterations) {
 	for (let i = 0; i < numIterations; ++i) {
 		jAddEvents.innerHTML += `<label for="${i}Event">Event #${i+1}: </label>`;
 		jAddEvents.innerHTML += `<input type="text" id="${i}Event" name="${i + 1}Event">`;
-		jAddEvents.innerHTML += `<label for="${i}YoE">		Age #${i + 1}: </label>`;
+		jAddEvents.innerHTML += `<label for="${i}YoE">		Your Age at Event #${i + 1}: </label>`;
 		jAddEvents.innerHTML += `<input type="text" id="${i}YoE" name="${i + 1}YoE"><br></br>`;
 	}
 }
