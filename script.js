@@ -2,7 +2,7 @@
 
 const YoBRegEx = /^\d{4}$/;		// RegEx to validate Year of Birth
 const ageRegEx = /^\d{1,2}$/;	// RegEx to validate event age
-const numRegEx = /^\d{1}$/;		// RegEx to validate num of events and add people
+const numRegEx = /^\d{1}|10$/;	// RegEx to validate num of events and add people
 let cannotContinue = false;		// Flag to not let script continue if invalid 
 								// information is inputed
 								// May not be needed
